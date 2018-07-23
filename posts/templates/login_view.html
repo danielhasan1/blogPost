@@ -1,0 +1,38 @@
+
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+
+{% block content%}
+
+	<title>{{title}}</title>
+	
+		
+		
+		<div class="container col-sm-6 " style="">
+			<h1>{{title}}</h1>
+			<hr>
+			<form method='POST' action="" enctype="multipart/form-data">{% csrf_token %}
+				<div class="form-group">
+					
+   {{form|crispy}}
+     
+  
+    
+            </div>
+            <div class="container col-sm-3">{% if not title == 'Register'%}<input type='submit' class="btn btn-success" value="Login"/>{%else%}<input type='submit' class="btn btn-success" value="Register"/>{%endif%}</div>		
+          </form>
+          {% if not title == 'Register'%}<a href="{%url 'register' %}">Not Yet registerd? click here</a>{%endif%}
+          <a href="{% url 'posts:list' %} " class="float-right">view as guest</a>
+        </div>
+    
+       
+       
+         
+	{% endblock %}
+
+    
+    
+{%for field in form%}
+ <input type="{% if field.label == 'Password' %}password{% else %}input{% endif %}" placeholder="{{ field.label }}" name="{{ field.name }}" class="form-control" />
+     {% endfor %}

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block head%}{{ instance.title }} | {{ block.super }} {% endblock %}
+{%block post_detail_link%}
+<li class="breadcrumb-item"><a href="{{pre.get_absolute_url}}">{{pre.title|truncatechars:10}}</a></li>
+{%endblock%}
+{% block content %}
+{{object}}
+
+<div class="container col-sm-6 break-text">
+   
+    <blockquote class="blockquote">
+        <p class="mb-0">{{com.content}}</p>
+        <footer class="blockquote-footer">via {{com.user.username}} | {{com.timestamp|timesince}} ago | {% if com.children.count > 1 %}{{com.children.count}} Replies to this thread| {% else %}{{com.children.count}} Reply{% endif %} |{% if request.user == com.user%} <a href="{{com.get_delete_url}}" class="btn btn-warning" role="button">Delete the whole thread</a>{% endif %}
+          
+            <a href="{{pre.get_absolute_url}}">Back</a>
+          
+          
+          </footer>
+     
+        {% for child in com.children %}
+
+        
+          <blockquote class="blockquote"> 
+           <p class="mb-0">{{child.content}}</p>
+           <footer class="blockquote-footer">via {{child.user.username}} | {{child.timestamp|timesince}} ago | {% if request.user == child.user%}Delet <a href="{{child.get_delete_url}}" class="reply-delete"></a>{% endif %}
+           </footer>
+           
+          </blockquote>
+        {%endfor%}
+        <br>
+        {%if request.user.is_authenticated %}
+        <form method="POST" action=".">{%csrf_token%}
+            {{form|crispy}}
+            <input type="hidden" name="parent_id" value='{{com.id}}'>
+          <input type="submit" value="Reply" class="btn btn-default">
+         </form>
+      {%else%}
+      <hr>
+      <div class="d-flex p-2" style="display: flex;">You must login to comment!</div>
+      {%endif%}
+    </blockquote>
+</div>
+{% endblock %}
+ {% url 'thrdel' id=com.id %}
+ 
+    

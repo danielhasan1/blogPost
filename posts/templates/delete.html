@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block head%}{{ instance.title }} | {{ block.super }} {% endblock %}
+{% block content %}
+{{object}}
+<div class="container col-sm-6 break-text">
+   
+    <
+        <form method="POST" action=".">{%csrf_token%}
+            <p>are you sure you want to delete "<span class="text-danger">{{obj.content}}</span> "</p>
+          <input type="submit" value="Delete" class="btn btn-warning">
+         <a href="{{obj.get_absolute_url}} " role="button" class="btn btn-default">Cancel</a>
+         </form>
+      
+    </blockquote>
+</div>
+{% endblock %}
+ {% url 'thrdel' id=com.id %}
+ 
+    

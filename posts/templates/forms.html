@@ -1,0 +1,44 @@
+
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{%block head_extra %}{{form.media}}{% endblock head_extra %}
+{% block content%}
+
+	<title>Form</title>
+	
+		<div class="row">
+		
+		<div class="col-sm-6">
+			<h1>CREATE YOUR BLOGS HERE</h1>
+			<hr>
+			<form method='POST' action="" enctype="multipart/form-data">{% csrf_token %}
+				<div class="form-group">
+					
+          {{form|crispy}}
+
+            </div>
+             {% if instance.get_absolute_url%}<input type='submit' class="btn btn-success" value="Edit Post"/>{%else%}<input type='submit' class="btn btn-success" value="Create"/>{%endif%}
+             		
+          </form>
+
+
+        </div>
+        <div class="col-sm-6">
+			<h1>Preview</h1>
+		<hr>
+			<div class="content-preview">
+				<h3 id="Preview-title" class="break-text"></h3>
+				<p id="Preview-content" class="break-text"></p>
+			</div>
+			
+		</div>
+		
+        </div>
+       
+       
+         <br>
+	{% endblock %}
+
+    
+    

@@ -1,0 +1,129 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie-edge">
+	<title>{% block head%}my first product{% endblock %}</title>
+	
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	
+	{%block head_extra %} {% endblock head_extra %}
+	<link rel="stylesheet" href="{%static 'css/base.css' %}"/> 
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+</head>
+		<body>
+			<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = 'https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.12';
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+			<div class="container">
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item"><a href="{%url 'posts:list' %}"  data-toggle="tooltip" data-placement="top" title="Go to blog's View">Home</a></li>
+  {%block post_detail_link%}{%endblock%}
+ {%if request.user.is_authenticated %} <li class="breadcrumb-item"><a href="{%url 'posts:list' %}create">Post</a></li>
+
+ <li class="breadcrumb-item"><a href="{%url 'logout' %}">Logout</a></li>{%endif%}
+  {%if not request.user.is_authenticated %}
+  <li class="breadcrumb-item"><a href="{%url 'login'  %}">Login</a></li>
+  <li class="breadcrumb-item"><a href="{%url 'register' %}"  data-toggle="tooltip" data-placement="top" title="Not yet registered click here to signup">Register</a></li>
+  {%endif%}
+  
+
+</ol>
+			{% block content %}
+
+			{% endblock %}
+			</div>
+
+
+
+
+	  <script
+  src="https://code.jquery.com/jquery-1.12.2.min.js"
+  integrity="sha256-lZFHibXzMHo3GGeehn1hudTAP3Sc0uKXBXAzHX1sjtk="
+  crossorigin="anonymous"></script>
+   
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js'></script>
+ 
+<script type="text/javascript">
+
+	$(document).ready(function(){
+		$(".content-markdown").each(function(){
+		    var content=$(this).text()
+		    //console.log(content)
+	        var mkd=marked(content)
+	        //console.log(mkd)
+	        $(this).html(mkd)	
+		})
+		$(".post-detail-item img").each(function(){
+		    	$(this).addClass("img-fluid");
+		})
+		var titleinput = $("#id_title")
+		//console.log(titleinput)
+		
+		var contentinput = $("#id_content")
+		//console.log(titleinput)
+		
+		function setContent(value){
+			var markedContent = marked(value)
+			$("#Preview-content").html(markedContent)
+			$("#Preview-content img").each(function(){
+				$(this).addClass("img-fluid")
+
+			})
+		}
+		setContent(contentinput.val())
+
+		contentinput.keyup(function(){
+			var newContent = $(this).val()
+			setContent(newContent)
+		})
+		function setTitle(value){
+			$("#Preview-title").text(titleinput.val())
+		}
+		setTitle(titleinput.val())
+		titleinput.keyup(function(){
+			var newtitle = $(this).val()
+			setTitle(newtitle)
+		})
+
+		$(".comment-reply-btn").click(function(event){
+			event.preventDefault();
+			$(this).parent().next(".comment-reply").fadeToggle();
+			//$(".comment-reply").fadeToggle();
+		})
+
+		$(".comment-delete").click(function(event){
+		event.preventDefault();
+			$(this).next(".comment-del").fadeToggle();
+			// $("#show").click(function(){
+            // $("").show();
+
+		})
+
+		//$(".d-flex p-2").(function(){
+		//	$('#myFlexbox').show().css('display', 'flex');
+		//})
+			
+
+
+	})
+	
+</script>
+<script src="{% static 'js/del.js' %}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+		</body>
+	
+</html>
+
